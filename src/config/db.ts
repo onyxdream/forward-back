@@ -26,3 +26,4 @@ pool.on("error", (err) => console.error("[-] PostgreSQL client error", err));
 // Lightweight wrapper that forwards to the pool's `query` method. It keeps
 // call sites simple: `await query('SELECT * FROM users WHERE id = $1', [id])`.
 export const query = (text: string, params?: any[]) => pool.query(text, params);
+export { pool };
