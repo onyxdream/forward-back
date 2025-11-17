@@ -3,6 +3,10 @@
 // application can run parameterized SQL without managing connections.
 
 import { Pool } from "pg";
+import { env } from "./env";
+
+const ssl = env.DB_SSL || env.NODE_ENV === "production";
+const useSSL = ssl ? { rejectUnauthorized: false } : false;
 
 // Create a connection pool. `connectionString` is taken from the
 // `DATABASE_URL` environment variable (expected to be set by the runtime).
@@ -11,8 +15,8 @@ import { Pool } from "pg";
 // aren't verifiable against system CAs. Review for your environment and
 // enable proper certificate verification in production if possible.
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  connectionString: env.DATABASE_URL,
+  ssl: useSSL,
 });
 
 // Log when a new client connects (helps during development).
@@ -26,4 +30,5 @@ pool.on("error", (err) => console.error("[-] PostgreSQL client error", err));
 // Lightweight wrapper that forwards to the pool's `query` method. It keeps
 // call sites simple: `await query('SELECT * FROM users WHERE id = $1', [id])`.
 export const query = (text: string, params?: any[]) => pool.query(text, params);
+
 export { pool };

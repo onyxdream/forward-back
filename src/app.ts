@@ -8,6 +8,11 @@ import { errorHandler } from "./middleware/errorHandler";
 
 // routes
 
+import { userRoutes } from "./modules/users/user.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
+import { authGuard } from "./middleware/authGuard";
+import { limiter, tightLimiter } from "./middleware/limiter";
+
 const app = express();
 
 app.use(cors());
@@ -15,5 +20,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use(errorHandler);
+
+app.use(tightLimiter, authRoutes);
+app.use("/users", tightLimiter, authGuard, userRoutes);
 
 export default app;

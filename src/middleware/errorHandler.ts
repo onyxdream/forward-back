@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { env } from "../config/env";
-
-interface AppError extends Error {
-  status?: number;
-}
+import { AppError } from "../utils/errors";
 
 export function errorHandler(
   err: AppError,
@@ -11,7 +8,7 @@ export function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  const status = err.status || 500;
+  const status = (err as any).statusCode ?? (err as any).status ?? 500;
   const isProd = env.NODE_ENV === "production";
 
   const payload = {
@@ -24,4 +21,3 @@ export function errorHandler(
 
   res.status(status).json(payload);
 }
-

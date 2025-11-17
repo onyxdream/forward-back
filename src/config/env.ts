@@ -47,6 +47,14 @@ const envSchema = z.object({
   // setups but allow overrides for debugging ('debug') or reduced noise
   // ('warn'/'error').
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
+
+  // TOKEN_EXPIRATION controls how long issued JWTs are valid.
+  TOKEN_EXPIRATION: z.string().default("1h"),
+  PASSWORD_SALT_ROUNDS: z.number().default(10),
+  DB_SSL: z
+    .string()
+    .transform((val: string) => val === "true")
+    .default(false),
 });
 
 // Parse and validate the runtime environment. `envSchema.parse(process.env)`
