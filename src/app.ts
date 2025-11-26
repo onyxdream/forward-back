@@ -15,13 +15,16 @@ import { limiter, tightLimiter } from "./middleware/limiter";
 
 const app = express();
 
+// dependencies
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use(errorHandler);
-
-app.use(tightLimiter, authRoutes);
+// modules
+app.use(limiter, authRoutes);
 app.use("/users", tightLimiter, authGuard, userRoutes);
+
+// error handler
+app.use(errorHandler);
 
 export default app;

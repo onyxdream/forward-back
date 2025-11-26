@@ -55,6 +55,7 @@ const envSchema = z.object({
     .string()
     .transform((val: string) => val === "true")
     .default(false),
+  RATE_LIMIT_WHITELIST_IPS: z.string().transform((val: string) => val.split(",").map(s => s.trim()))
 });
 
 // Parse and validate the runtime environment. `envSchema.parse(process.env)`

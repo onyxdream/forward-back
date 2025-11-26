@@ -2,7 +2,9 @@ import jwt from "jsonwebtoken";
 import { env } from "../../config/env";
 import { queryUserByEmail } from "./auth.repository";
 import bcrypt from "bcrypt";
-import { ValidationError } from "../../utils/errors";
+import { BadRequestError, ValidationError } from "../../utils/errors";
+import { ZodSchema } from "zod";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 // Authentication helpers – small service that issues JWTs for authenticated
 // users. Keeping token creation here centralizes signing behavior and makes
@@ -71,3 +73,14 @@ export const validateToken = (token: string) => {
     return new ValidationError("Token invalid");
   }
 };
+
+export const validateBody =
+  (schema: ZodSchema<any>): RequestHandler =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.body);
+
+    if (!result.success) throw new BadRequestError("Invalid request body");
+
+    req.body = result.data;
+    next();
+  };
