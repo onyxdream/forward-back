@@ -32,7 +32,7 @@ export const userLogin = async (email: string, password: string) => {
 
     if (!isPasswordValid) throw new AuthError("Invalid credentials");
 
-    const token = generateToken(userData.id);
+    const token = generateToken(userData.id, userData.admin);
 
     const { password_hash, ...safeUserData } = userData;
 

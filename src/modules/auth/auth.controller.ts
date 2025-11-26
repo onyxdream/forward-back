@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { userLogin, userRegister } from "./auth.service";
 import { env } from "../../config/env";
+import { LoginInput } from "./auth.model";
 
 // Controller for handling authentication requests.
 // Responsibilities:
@@ -11,7 +12,7 @@ export const login = async (req: Request, res: Response) => {
   try {
     // Basic extraction – consider adding request validation middleware
     // (zod/express-validator) to enforce shape and provide nicer errors.
-    const { email, password } = req.body as { email: string; password: string };
+    const { email, password } = req.body as LoginInput;
 
     // Delegate auth logic to service layer
     const result = await userLogin(email, password);

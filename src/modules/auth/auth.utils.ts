@@ -9,11 +9,11 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 // Authentication helpers – small service that issues JWTs for authenticated
 // users. Keeping token creation here centralizes signing behavior and makes
 // testing easier.
-export const generateToken = (userId: string) => {
+export const generateToken = (userId: string, admin = false) => {
   // Create a signed JWT that contains the user id as the payload. The
   // signing secret and token expiration are pulled from the validated
   // `env` module so they are guaranteed to exist at runtime.
-  return jwt.sign({ id: userId }, env.JWT_SECRET as jwt.Secret, {
+  return jwt.sign({ id: userId, admin }, env.JWT_SECRET as jwt.Secret, {
     expiresIn: env.TOKEN_EXPIRATION as jwt.SignOptions["expiresIn"],
   });
 };

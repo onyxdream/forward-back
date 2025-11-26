@@ -36,6 +36,7 @@ export const authGuard = (
     // We use a type assertion because Express Request has no `user` by
     // default in @types/express. Consumers can cast `req` when needed.
     (req as any).user = decoded;
+    (req as any).token = token;
 
     next();
   } catch (error) {
