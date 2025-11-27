@@ -19,8 +19,12 @@ const pool = new Pool({
   ssl: useSSL,
 });
 
+let logged = false;
+
 // Log when a new client connects (helps during development).
 pool.on("connect", () => {
+  if (logged) return;
+  logged = true;
   console.log("[+] Connected to PostgreSQL database");
 });
 
