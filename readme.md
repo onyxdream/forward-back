@@ -12,10 +12,10 @@
 
 ## Table of Contents
 
-- [About](##-About)
-- [Build](##-Build)
-- [Documentation](##-Documentation)
-- [License](##-License)
+- [About](#about)
+- [Build](#build)
+- [Documentation](#documentation)
+- [License](#license)
 
 ## About
 

@@ -1,10 +1,10 @@
 # f0rward Documentation
 
-1. [Endpoints](##-Endpoints)
-2. [Dependencies](##-Dependencies)
-3. [Source Code](##Source)
-4. [Enviroment Variables (.env)](##-Environment-Variables)
-5. [Typescript](##-Typescript)
+1. [Endpoints](#endpoints)
+2. [Dependencies](#dependencies)
+3. [Source Code](#source-code)
+4. [Enviroment Variables (.env)](#environment-variables)
+5. [Typescript](#typescript)
 
 # Endpoints
 
@@ -246,37 +246,6 @@ Authentication data access layer:
 
 Authentication route definitions:
 
-├── app.ts
-├── config
-│ ├── db.ts
-│ └── env.ts
-├── middleware
-│ ├── authGuard.ts
-│ ├── errorHandler.ts
-│ ├── limiter.ts
-│ └── requestLogger.ts
-├── modules
-│ ├── auth
-│ │ ├── auth.controller.ts
-│ │ ├── auth.model.ts
-│ │ ├── auth.repository.ts
-│ │ ├── auth.routes.ts
-│ │ ├── auth.service.ts
-│ │ └── auth.utils.ts
-│ └── users
-│ ├── user.controller.ts
-│ ├── user.model.ts
-│ ├── user.repository.ts
-│ ├── user.routes.ts
-│ ├── user.service.ts
-│ └── user.utils.ts
-├── server.ts
-└── utils
-├── errors.ts
-├── logs.ts
-└── validate.ts
-
-```
 - Route path mappings
 - HTTP method bindings
 - Middleware application per route
@@ -425,8 +394,6 @@ Each module follows a layered architecture:
 - Self-contained modules
 - Clear module boundaries
 - Reusable utilities
-
-
 
 # Environment Variables
 
