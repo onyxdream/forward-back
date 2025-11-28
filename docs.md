@@ -426,40 +426,7 @@ Each module follows a layered architecture:
 - Clear module boundaries
 - Reusable utilities
 
-```
 
-src
-├── app.ts
-├── config
-│ ├── db.ts
-│ └── env.ts
-├── middleware
-│ ├── authGuard.ts
-│ ├── errorHandler.ts
-│ ├── limiter.ts
-│ └── requestLogger.ts
-├── modules
-│ ├── auth
-│ │ ├── auth.controller.ts
-│ │ ├── auth.model.ts
-│ │ ├── auth.repository.ts
-│ │ ├── auth.routes.ts
-│ │ ├── auth.service.ts
-│ │ └── auth.utils.ts
-│ └── users
-│ ├── user.controller.ts
-│ ├── user.model.ts
-│ ├── user.repository.ts
-│ ├── user.routes.ts
-│ ├── user.service.ts
-│ └── user.utils.ts
-├── server.ts
-└── utils
-├── errors.ts
-├── logs.ts
-└── validate.ts
-
-```
 
 # Environment Variables
 ```
