@@ -60,6 +60,33 @@ const insertLog = async ({
   );
 };
 
+/**
+ * Audit logging utility class for tracking and recording user actions and system events.
+ * 
+ * This class provides methods to log audit events with different severity levels.
+ * All logs are persisted via the `insertLog` function and also output to the console
+ * with formatted messages and icons.
+ * 
+ * @remarks
+ * The class uses static methods and should not be instantiated.
+ * 
+ * @example
+ * ```typescript
+ * Audit.log({
+ *   action: 'USER_LOGIN',
+ *   details: { ip: '192.168.1.1' },
+ *   actorId: 'user123',
+ *   targetId: 'session456'
+ * });
+ * 
+ * Audit.warn({
+ *   action: 'INVALID_ACCESS_ATTEMPT',
+ *   details: { reason: 'Insufficient permissions' },
+ *   actorId: 'user789',
+ *   targetId: 'resource001'
+ * });
+ * ```
+ */
 class Audit {
   private static consoleLogMessage = (
     { action, details, actorId, targetId }: AuditLog,

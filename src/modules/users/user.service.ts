@@ -4,14 +4,29 @@ import Audit from "../../utils/logs";
 import { UpdateUserModel } from "./user.model";
 import * as userRepo from "./user.repository";
 import { emailSanitize } from "./user.utils";
-//import { BadRequestError, NotFoundError } from "../../utils/errors";
 
+/**
+ * Retrieves a user's profile information by ID.
+ *
+ * @param id - The ID of the user to retrieve
+ *
+ * @returns The user data if found, otherwise undefined
+ */
 export async function getById(id: string) {
   const user = await userRepo.findById(id);
 
   return user;
 }
 
+/**
+ * Updates a user's profile information.
+ *
+ * @param actorId - The ID of the user performing the update
+ * @param id - The ID of the user to update
+ * @param userData - Partial user data to update
+ *
+ * @returns The updated user data
+ */
 export async function updateUser(
   actorId: string,
   id: string,
@@ -33,6 +48,14 @@ export async function updateUser(
   return updatedUser;
 }
 
+/**
+ * Deactivates a user account.
+ *
+ * @param actorId - The ID of the user performing the deletion
+ * @param id - The ID of the user to deactivate
+ *
+ * @returns Promise that resolves when the user is deactivated
+ */
 export async function deleteUser(actorId: string, id: string) {
   await userRepo.deleteUser(id);
 
