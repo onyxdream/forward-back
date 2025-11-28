@@ -71,7 +71,7 @@ npm run dev
 
 ## Documentation
 
-For detailed API documentation and usage guides, see [docs/main.md](docs.md).
+For detailed API documentation and usage guides, see the [DOCUMENTATION](docs.md).
 
 ## License
 
