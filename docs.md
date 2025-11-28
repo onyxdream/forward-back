@@ -429,7 +429,6 @@ Each module follows a layered architecture:
 
 
 # Environment Variables
-```
 
 ## Required Variables
 
