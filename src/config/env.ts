@@ -15,6 +15,7 @@ const envSchema = z.object({
   // NODE_ENV controls runtime behavior (logging, debug features, etc.).
   // We restrict allowed values to the common set and default to 'development'
   // when not provided so that local dev is convenient.
+  ADDRESS: z.string().default("127.0.0.1"),
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
@@ -55,7 +56,16 @@ const envSchema = z.object({
     .string()
     .transform((val: string) => val === "true")
     .default(false),
-  RATE_LIMIT_WHITELIST_IPS: z.string().transform((val: string) => val.split(",").map(s => s.trim()))
+  HTTP_SSL: z
+    .string()
+    .transform((val: string) => val === "true")
+    .default(false),
+  RATE_LIMIT_WHITELIST_IPS: z
+    .string()
+    .transform((val: string) => val.split(",").map((s) => s.trim())),
+  CA_CERT_PATH: z.string().default("certs/ca.crt"),
+  SERVER_KEY_PATH: z.string().default("certs/server.key"),
+  SERVER_CERT_PATH: z.string().default("certs/server.crt"),
 });
 
 // Parse and validate the runtime environment. `envSchema.parse(process.env)`

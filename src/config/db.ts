@@ -3,10 +3,29 @@
 // application can run parameterized SQL without managing connections.
 
 import { Pool } from "pg";
+import fs from "fs";
 import { env } from "./env";
+import path from "path";
 
-const ssl = env.DB_SSL || env.NODE_ENV === "production";
-const useSSL = ssl ? { rejectUnauthorized: false } : false;
+const connectionString = env.DATABASE_URL;
+
+// Paths to SSL certificate files.
+const caPath = env.CA_CERT_PATH;
+const keyPath = env.SERVER_KEY_PATH;
+const certPath = env.SERVER_CERT_PATH;
+
+// use SSL if specified or if in production mode by default.
+const useSSL = env.DB_SSL || env.NODE_ENV === "production";
+
+const ssl = useSSL
+  ? {
+      rejectUnauthorized: true,
+      // Certificate authority and client certs for SSL connections.
+      ca: fs.readFileSync(caPath),
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath),
+    }
+  : false;
 
 // Create a connection pool. `connectionString` is taken from the
 // `DATABASE_URL` environment variable (expected to be set by the runtime).
@@ -15,8 +34,8 @@ const useSSL = ssl ? { rejectUnauthorized: false } : false;
 // aren't verifiable against system CAs. Review for your environment and
 // enable proper certificate verification in production if possible.
 const pool = new Pool({
-  connectionString: env.DATABASE_URL,
-  ssl: useSSL,
+  connectionString,
+  ssl,
 });
 
 let logged = false;
@@ -25,7 +44,7 @@ let logged = false;
 pool.on("connect", () => {
   if (logged) return;
   logged = true;
-  console.log("[+] Connected to PostgreSQL database");
+  console.log(`[+] Connected to PostgreSQL database.`);
 });
 
 // Surface connection errors to the process logs so they can be observed.

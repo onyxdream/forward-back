@@ -7,7 +7,6 @@
 ![morgan](https://img.shields.io/badge/morgan-logging-lightgrey)
 ![rate_limit](https://img.shields.io/badge/express--rate--limit-security-red)
 ![pg](https://img.shields.io/badge/pg-driver-336791)
-![speedtest-net](https://img.shields.io/badge/speedtest--net-api-4B8BBE)
 ![Types](https://img.shields.io/badge/@types-TypeScript%20defs-3178C6)
 
 ## Table of Contents

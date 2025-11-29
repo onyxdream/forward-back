@@ -451,6 +451,24 @@ Each module follows a layered architecture:
 - **Description:** Maximum requests per time window
 - **Default:** `100`
 
+### `CA_CERT_PATH`
+
+- **Type:** `string`
+- **Description:** Path to the Certificate Authority (CA) certificate file used for SSL/TLS verification
+- **Default:** `certs/ca.crt`
+
+### `SERVER_KEY_PATH`
+
+- **Type:** `string`
+- **Description:** Path to the server's private key file used for SSL/TLS authentication
+- **Default:** `certs/client.key`
+
+### `SERVER_CERT_PATH`
+
+- **Type:** `string`
+- **Description:** Path to the server's certificate file used for SSL/TLS authentication
+- **Default:** `certs/client.crt`
+
 # Typescript
 
 ## TypeScript Configuration

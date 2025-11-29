@@ -46,7 +46,7 @@ if (redisUrl) {
   // This is acceptable for single-instance dev setups but not for production
   // horizontally scaled deployments.
   console.warn(
-    "Rate limiter: REDIS_URL not set, using in-memory store (not suitable for multi-instance deployments)"
+    "[!] Rate limiter: REDIS_URL not set, using in-memory store."
   );
 }
 

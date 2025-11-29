@@ -1,3 +1,5 @@
+console.log("====================== f0rward Backend ======================");
+
 // import main dependencies
 import express from "express";
 import cors from "cors";
@@ -7,7 +9,6 @@ import morgan from "morgan";
 import { errorHandler } from "./middleware/errorHandler";
 
 // routes
-
 import { userRoutes } from "./modules/users/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { authGuard } from "./middleware/authGuard";
@@ -26,5 +27,7 @@ app.use("/users", tightLimiter, authGuard, userRoutes);
 
 // error handler
 app.use(errorHandler);
+
+console.log("[+] Express app initialized");
 
 export default app;
