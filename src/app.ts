@@ -23,7 +23,7 @@ app.use(morgan("dev"));
 
 // modules
 app.use(limiter, authRoutes);
-app.use("/users", tightLimiter, authGuard, userRoutes);
+app.use("/user", tightLimiter, authGuard, userRoutes);
 
 // error handler
 app.use(errorHandler);
