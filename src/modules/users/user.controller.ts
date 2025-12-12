@@ -20,12 +20,12 @@ import { findById } from "./user.repository";
  * @returns Promise that resolves with HTTP 200 and the user object
  */
 export async function getUserById(req: Request, res: Response) {
-  const { id: targetId } = req.params;
+  let { id: targetId } = req.params;
   const authUserId = req.user?.id;
 
   if (!authUserId) throw new ForbiddenError("Missing authenticated user id");
 
-  if (!targetId) throw new BadRequestError("Missing target user id");
+  if (!targetId) targetId = authUserId;
 
   if (authUserId !== targetId && !req.user?.admin)
     throw new ForbiddenError("Cannot access another user's profile");
@@ -60,32 +60,27 @@ export async function getUserById(req: Request, res: Response) {
  * @returns Promise that resolves with HTTP 200 and the updated user object
  */
 export async function updateUser(req: Request, res: Response) {
-  try {
-    const authUserId = req.user?.id;
+  const authUserId = req.user?.id;
 
-    if (!authUserId) throw new ForbiddenError("Missing authenticated user id");
+  if (!authUserId) throw new ForbiddenError("Missing authenticated user id");
 
-    const { id } = req.params;
+  let { id } = req.params;
 
-    if (!id) throw new BadRequestError("Missing target user id");
+  if (!id) id = authUserId;
 
-    if (authUserId !== id && !req.user?.admin)
-      throw new ForbiddenError("Cannot update another user's profile");
+  if (authUserId !== id && !req.user?.admin)
+    throw new ForbiddenError("Cannot update another user's profile");
 
-    const userData: Partial<UpdateUserModel> = req.body;
+  const userData: Partial<UpdateUserModel> = req.body;
 
-    // check if user exists
-    const user = await userService.getById(id);
+  // check if user exists
+  const user = await userService.getById(id);
 
-    if (!user) throw new BadRequestError("User not found");
+  if (!user) throw new BadRequestError("User not found");
 
-    const updatedUser = await userService.updateUser(authUserId, id, userData);
+  const updatedUser = await userService.updateUser(authUserId, id, userData);
 
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    // In production, avoid revealing internal error messages to clients.
-    throw error;
-  }
+  res.status(200).json(updatedUser);
 }
 
 /**
@@ -104,12 +99,12 @@ export async function updateUser(req: Request, res: Response) {
  * - Requires authentication via req.user
  */
 export async function deleteUser(req: Request, res: Response) {
-  const { id: targetId } = req.params;
+  let { id: targetId } = req.params;
   const authUserId = req.user?.id;
 
-  if (!targetId) throw new BadRequestError("Missing user id");
-
   if (!authUserId) throw new ForbiddenError("Missing authenticated user id");
+
+  if (!targetId) targetId = authUserId;
 
   if (authUserId !== targetId && !req.user?.admin)
     throw new ForbiddenError("Cannot delete another user's profile");

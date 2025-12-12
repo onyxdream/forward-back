@@ -32,7 +32,7 @@ export async function updateUser(
   userData: Partial<UpdateUserModel>
 ) {
   const { rows } = await query(
-    "UPDATE f0_users SET username = COALESCE($2, username), email = COALESCE($3, email), is_active = COALESCE($4, is_active), premium = COALESCE($5, premium) WHERE id = $1 RETURNING id, email, username, is_active, created_at",
+    "UPDATE f0_users SET username = COALESCE($2, username), email = COALESCE($3, email), is_active = COALESCE($4, is_active) WHERE id = $1 RETURNING id, email, username, is_active, created_at",
     [id, userData.username, userData.email, userData.is_active]
   );
 

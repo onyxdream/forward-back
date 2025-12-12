@@ -11,6 +11,7 @@ import { errorHandler } from "./middleware/errorHandler";
 // routes
 import { userRoutes } from "./modules/users/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
+import { taskRoutes } from "./modules/tasks/task.routes";
 import { authGuard } from "./middleware/authGuard";
 import { limiter, tightLimiter } from "./middleware/limiter";
 
@@ -24,6 +25,7 @@ app.use(morgan("dev"));
 // modules
 app.use(limiter, authRoutes);
 app.use("/user", tightLimiter, authGuard, userRoutes);
+app.use("/task", limiter, authGuard, taskRoutes);
 
 // error handler
 app.use(errorHandler);

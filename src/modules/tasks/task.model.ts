@@ -1,20 +1,26 @@
 import z from "zod";
 
 export const taskSchema = z.object({
-  id: z.int(),
+  id: z.uuid(),
   user_id: z.uuid(),
   name: z.string().min(1).max(50),
   created_at: z.number().transform((val) => new Date(val)),
   note: z.string().max(500).optional(),
-  top_task: z.int().optional(),
-  start: z.number().transform((val) => new Date(val)),
+  top_task: z.uuid().optional(),
+  date: z
+    .string()
+    .refine((v) => !isNaN(Date.parse(v)), {
+      message: "Invalid date format",
+    })
+    .transform((val) => new Date(val)),
+  time: z.string().optional(),
   deadline: z
     .number()
     .transform((val) => new Date(val))
     .optional(),
   all_day: z.boolean().default(true),
-  progress: z.number().min(0).max(100).default(0),
-  goal: z.number().min(0).max(100).default(1),
+  progress: z.string().transform((val) => parseFloat(val)),
+  goal: z.string().transform((val) => parseFloat(val)),
 });
 
 export const createTaskSchema = taskSchema.omit({
@@ -23,17 +29,21 @@ export const createTaskSchema = taskSchema.omit({
   user_id: true,
 });
 
-export const updateTaskSchema = taskSchema.partial().extend({
-  id: z.number(),
-});
+export const updateTaskSchema = taskSchema
+  .omit({
+    id: true,
+    created_at: true,
+    user_id: true,
+  })
+  .partial();
 
 export const deleteTaskSchema = z.object({
   id: z.number(),
 });
 
 export const bulkGetInputSchema = z.object({
-  from_date: z.date(),
-  to_date: z.date(),
+  from_date: z.date().optional(),
+  to_date: z.date().optional(),
 });
 
 export const bulkTaskSchema = taskSchema.omit({

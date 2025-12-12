@@ -15,14 +15,14 @@ const create = async (req: Request, res: Response) => {
 };
 
 const getById = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+  const taskId = req.params.id;
   const userId = req.user?.id;
 
-  if (!isNaN(id)) throw new ForbiddenError("Invalid task id");
+  if (!taskId) throw new ForbiddenError("Invalid task id");
 
   if (!userId) throw new ForbiddenError("Missing authenticated user id");
 
-  const taskData: Task = await taskService.get(userId, id);
+  const taskData: Task = await taskService.get(userId, taskId);
 
   res.status(200).json(taskData);
 };
@@ -35,8 +35,8 @@ const getAll = async (req: Request, res: Response) => {
 
   const tasks: BulkTask[] = await taskService.getAll(
     userId,
-    body.from_date,
-    body.to_date
+    body?.from_date,
+    body?.to_date
   );
 
   res.status(200).json(tasks);
@@ -44,26 +44,27 @@ const getAll = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
   const userId = req.user?.id;
-  const id = Number(req.params.id);
-  const body = req.body;
+  const taskId = req.params.id;
+  const alter = req.body;
 
-  if (!isNaN(id)) throw new ForbiddenError("Invalid task id");
+  if (!taskId) throw new ForbiddenError("Invalid task id");
+
   if (!userId) throw new ForbiddenError("Missing authenticated user id");
 
-  const updatedTask: Task = await taskService.update(userId, { id, ...body });
+  const updatedTask: Task = await taskService.update(userId, taskId, alter);
 
   res.status(200).json(updatedTask);
 };
 
 const remove = async (req: Request, res: Response) => {
   const userId = req.user?.id;
-  const id = Number(req.params.id);
+  const taskId = req.params.id;
 
-  if (!isNaN(id)) throw new ForbiddenError("Invalid task id");
+  if (!taskId) throw new ForbiddenError("Invalid task id");
 
   if (!userId) throw new ForbiddenError("Missing authenticated user id");
 
-  await taskService.remove(userId, id);
+  await taskService.remove(userId, taskId);
 
   res.status(204).send();
 };

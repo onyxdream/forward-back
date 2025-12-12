@@ -18,7 +18,7 @@ taskRoutes.post(
 taskRoutes.get("/:id", taskController.getById as RequestHandler);
 taskRoutes.get(
   "/",
-  validateBody(bulkGetInputSchema),
+  //validateBody(bulkGetInputSchema),
   taskController.getAll as RequestHandler
 );
 taskRoutes.put(

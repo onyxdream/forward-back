@@ -8,19 +8,18 @@ import {
 } from "./task.model";
 import taskRepo from "./task.repo";
 
-const get = async (userId: string, id: number) => {
-  const taskData: Task = await taskRepo.getById(userId, id);
-
-  if (taskData.user_id !== userId) throw new NotFoundError("Task not found");
+const get = async (userId: string, taskId: string) => {
+  const taskData: Task = await taskRepo.getById(userId, taskId);
 
   if (!taskData) throw new NotFoundError("Task not found");
+  if (taskData.user_id !== userId) throw new NotFoundError("Task not found");
 
   return taskData;
 };
 
-const getAll = async (userId: string, from_date: Date, to_date: Date) => {
-  const from_date_iso = from_date.toISOString();
-  const to_date_iso = to_date.toISOString();
+const getAll = async (userId: string, from_date?: Date, to_date?: Date) => {
+  const from_date_iso = from_date?.toISOString() || undefined;
+  const to_date_iso = to_date?.toISOString() || undefined;
 
   let tasks: BulkTask[] = await taskRepo.getAll(
     userId,
@@ -36,17 +35,27 @@ const create = async (userId: string, taskSchema: CreateTaskSchema) => {
   return taskData;
 };
 
-const update = async (userId: string, updateTaskSchema: UpdateTaskInput) => {
-  const taskData: Task = await taskRepo.update(userId, updateTaskSchema);
+const update = async (
+  userId: string,
+  taskId: string,
+  updateTaskSchema: UpdateTaskInput
+) => {
+  const taskData: Task = await taskRepo.update(
+    userId,
+    taskId,
+    updateTaskSchema
+  );
 
   if (!taskData) throw new NotFoundError("Task not found");
 
-  if (taskData.user_id !== userId) throw new NotFoundError("Task not found");
+  if (taskData.user_id !== userId)
+    throw new NotFoundError("You cannot edit this task");
+
   return taskData;
 };
 
-const remove = async (userId: string, id: number) => {
-  await taskRepo.remove(userId, id);
+const remove = async (userId: string, taskId: string) => {
+  await taskRepo.remove(userId, taskId);
 };
 
 export default {
