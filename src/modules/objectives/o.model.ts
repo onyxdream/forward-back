@@ -19,13 +19,7 @@ export const createObjectiveSchema = objectiveSchema.omit({
   user_id: true,
 });
 
-export const updateObjectiveSchema = objectiveSchema
-  .omit({
-    id: true,
-    created_at: true,
-    user_id: true,
-  })
-  .partial();
+export const updateObjectiveSchema = createObjectiveSchema.partial();
 
 export type Objective = z.infer<typeof objectiveSchema>;
 export type CreateObjectiveSchema = z.infer<typeof createObjectiveSchema>;

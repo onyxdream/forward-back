@@ -1,9 +1,20 @@
-const { Router } = require("express");
-const controller = require("./o.controller");
+import { Router } from "express";
+import controller from "./o.controller";
+import { validateBody } from "../../utils/validate";
+import { createObjectiveSchema, updateObjectiveSchema } from "./o.model";
 
-const objectiveRouter = Router();
+export const objectiveRoutes = Router();
 
-objectiveRouter.post("/", controller.createObjective);
-objectiveRouter.get("/:objectiveId", controller.getObjective);
-objectiveRouter.put("/:objectiveId", controller.updateObjective);
-objectiveRouter.delete("/:objectiveId", controller.deleteObjective);
+objectiveRoutes.post(
+  "/",
+  validateBody(createObjectiveSchema),
+  controller.createObjective
+);
+objectiveRoutes.get("/:objectiveId", controller.getObjective);
+objectiveRoutes.get("/", controller.getObjective);
+objectiveRoutes.put(
+  "/:objectiveId",
+  validateBody(updateObjectiveSchema),
+  controller.updateObjective
+);
+objectiveRoutes.delete("/:objectiveId", controller.deleteObjective);

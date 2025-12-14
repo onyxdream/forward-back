@@ -18,7 +18,8 @@ const create = async (userId: string, schema: CreateObjectiveSchema) => {
   return objective;
 };
 
-const read = async (objectiveId: string, user_id: string) => {
+const read = async (objectiveId: string | undefined, user_id: string) => {
+  if (!objectiveId) return await readAll(user_id);
   const result = await query(
     "SELECT * FROM f0_bjectives WHERE id = $1 AND user_id = $2",
     [objectiveId, user_id]
@@ -29,13 +30,22 @@ const read = async (objectiveId: string, user_id: string) => {
   return objective;
 };
 
+const readAll = async (userId: string) => {
+  const result = await query(
+    "SELECT * FROM f0_objectives WHERE user_id = $1 ORDER BY created_at DESC",
+    [userId]
+  );
+
+  return result.rows;
+};
+
 const update = async (
   objectiveId: string,
   userId: string,
   input: UpdateObjectiveInput
 ) => {
   const result = await query(
-    "UPDATE f0_objectives SET title = COALESCE($1, title), description = COALESCE($2, descritpion), deadline = COALESCE($3, deadline), top_objective = COALESCE($4, top_objective) WHERE id = $5 AND user_id = $6 RETURNING *",
+    "UPDATE f0_objectives SET title = COALESCE($1, title), description = COALESCE($2, description), deadline = COALESCE($3, deadline), top_objective = COALESCE($4, top_objective) WHERE id = $5 AND user_id = $6 RETURNING *",
     [
       input.title,
       input.description || null,
