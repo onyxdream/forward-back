@@ -21,6 +21,7 @@ export const taskSchema = z.object({
   all_day: z.boolean().default(true),
   progress: z.string().transform((val) => parseFloat(val)),
   goal: z.string().transform((val) => parseFloat(val)),
+  completed: z.boolean().default(false),
 });
 
 export const createTaskSchema = taskSchema.omit({
