@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { BadRequestError } from "./errors";
-import { ZodSchema } from "zod";
+import { ZodSchema, treeifyError } from "zod";
 import jwt from "jsonwebtoken";
 
 /**
@@ -18,7 +18,13 @@ export const validateBody =
     const result = schema.safeParse(req.body);
 
     // If validation fails, throw a BadRequestError (handled by central error handler)
-    if (!result.success) throw new BadRequestError("Invalid request body");
+    if (!result.success) {
+      // In development, log validation errors for debugging
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Validation failed:", treeifyError(result.error));
+      }
+      throw new BadRequestError("Invalid request body");
+    }
 
     // Replace the raw body with the parsed/validated data to ensure downstream code
     // receives correctly typed and validated input
