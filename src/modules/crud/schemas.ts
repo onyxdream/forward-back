@@ -86,11 +86,28 @@ const habitStreak = z.object({
     .optional(),
 });
 
+const habitLogs = z.object({
+  id: z.uuid(),
+  habit_id: z.uuid(),
+  logged_at: z.number().transform((val) => new Date(val)),
+  progress: z.string().transform((val) => parseFloat(val)),
+  note: z.string().max(500).optional(),
+});
+
 const tag = z.object({
   id: z.uuid(),
   name: z.string().min(1).max(50),
   master_tag: z.uuid().optional(),
   color: z.string().max(20).default("blue"),
+});
+
+const userWidgets = z.object({
+  user_id: z.uuid(),
+  widget_id: z.uuid(),
+  pos_x: z.number().int().min(0),
+  pos_y: z.number().int().min(0),
+  width: z.number().int().min(1),
+  height: z.number().int().min(1),
 });
 
 export default {
@@ -101,4 +118,6 @@ export default {
   habitTime,
   habitStreak,
   tag,
+  habitLogs,
+  userWidgets,
 };

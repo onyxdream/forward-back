@@ -18,4 +18,34 @@ export const CrudConstructors: CrudConstructor[] = [
     endpoint: "/objective",
     schema: schema.objective,
   },
+  {
+    tableName: "f0_schedules",
+    endpoint: "/habit-schedule",
+    schema: schema.schedule,
+  },
+  {
+    tableName: "f0_habit_times",
+    endpoint: "/habit-time",
+    schema: schema.habitTime,
+  },
+  {
+    tableName: "f0_habit_streaks",
+    endpoint: "/habit-streak",
+    schema: schema.habitStreak,
+  },
+  {
+    tableName: "f0_habit_logs",
+    endpoint: "/habit-log",
+    schema: schema.habitLogs,
+  },
+  {
+    tableName: "f0_tags",
+    endpoint: "/tag",
+    schema: schema.tag,
+  },
+  {
+    tableName: "f0_user_widgets",
+    endpoint: "/widget",
+    schema: schema.userWidgets,
+  },
 ];
